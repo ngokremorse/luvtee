@@ -11,9 +11,7 @@ function createTable()
     $charset_collate = $wpdb->get_charset_collate();
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
         id              INT(9)              NOT NULL   AUTO_INCREMENT,
-        ipv4            varchar(50)         NOT NULL,
         device          varchar(50)         NOT NULL,
-        source          varchar(50)         NOT NULL,
         productId       INT(9)              NOT NULL,
         view            SMALLINT            NOT NULL default 0,
         atc             SMALLINT            NOT NULL default 0,
@@ -21,6 +19,9 @@ function createTable()
         orderCount      SMALLINT            NOT NULL default 0,
         orderItem       SMALLINT            NOT NULL default 0,
         orderAmount     DECIMAL(10,2)       NOT NULL default 0,
+        utm_source      varchar(50)         unique            ,
+        utm_medium      varchar(50)         unique            ,
+        utm_campaign    varchar(50)         unique            ,
         createDate      DATE                NOT NULL default (CURRENT_DATE),
         lastModified    DATETIME            NOT NULL default NOW(),
         PRIMARY KEY  (id)
@@ -31,9 +32,7 @@ function createTable()
     $table_name = $wpdb->prefix . "tqdp_product_traffic_report";
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
         id              INT(9)              NOT NULL   AUTO_INCREMENT,
-        ipv4            varchar(50)         NOT NULL,
         device          varchar(50)         NOT NULL,
-        source          varchar(50)         NOT NULL,
         productId       INT(9)              NOT NULL,
         view            SMALLINT            NOT NULL default 0,
         atc             SMALLINT            NOT NULL default 0,
@@ -41,6 +40,9 @@ function createTable()
         orderCount      SMALLINT            NOT NULL default 0,
         orderItem       SMALLINT            NOT NULL default 0,
         orderAmount     DECIMAL(10,2)       NOT NULL default 0,
+       utm_source       varchar(50)          unique            ,
+        utm_medium      varchar(50)         unique            ,
+        utm_campaign    varchar(50)         unique            ,
         createDate      DATE                NOT NULL default (CURRENT_DATE),
         lastModified    DATETIME            NOT NULL default NOW(),
         PRIMARY KEY  (id)
