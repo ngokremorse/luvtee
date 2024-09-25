@@ -19,12 +19,12 @@ function createTable()
         orderCount      SMALLINT            NOT NULL default 0,
         orderItem       SMALLINT            NOT NULL default 0,
         orderAmount     DECIMAL(10,2)       NOT NULL default 0,
-        utm_source      varchar(50)         unique            ,
-        utm_medium      varchar(50)         unique            ,
-        utm_campaign    varchar(50)         unique            ,
+        utm_source      varchar(50)                           ,
+        utm_medium      varchar(50)                           ,
+        utm_campaign    varchar(50)                           ,
         createDate      DATE                NOT NULL default (CURRENT_DATE),
         lastModified    DATETIME            NOT NULL default NOW(),
-        PRIMARY KEY  (id)
+        PRIMARY KEY (id)
         ) $charset_collate;";
     dbDelta($sql);
 
@@ -40,12 +40,12 @@ function createTable()
         orderCount      SMALLINT            NOT NULL default 0,
         orderItem       SMALLINT            NOT NULL default 0,
         orderAmount     DECIMAL(10,2)       NOT NULL default 0,
-       utm_source       varchar(50)          unique            ,
-        utm_medium      varchar(50)         unique            ,
-        utm_campaign    varchar(50)         unique            ,
-        createDate      DATE                NOT NULL default (CURRENT_DATE),
+        utm_source      varchar(50)                           ,
+        utm_medium      varchar(50)                           ,
+        utm_campaign    varchar(50)                           ,
+        createDate      DATE                default (CURRENT_DATE),
         lastModified    DATETIME            NOT NULL default NOW(),
-        PRIMARY KEY  (id)
+        PRIMARY KEY (id)
         ) $charset_collate;";
     dbDelta($sql);
 }

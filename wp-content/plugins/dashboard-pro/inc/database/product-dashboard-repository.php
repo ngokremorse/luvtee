@@ -45,15 +45,17 @@ if (!class_exists("ProductDashboardRepository")) {
             $utm_source = "", $utm_medium = "", $utm_campaign = "",
         ) {
             global $wpdb;
-            $date = date('Y-m-d');
+            $dateNow = date("Y-m-d");
             $table = $wpdb->prefix .'tqdp_product_traffic';
-            $sql = $wpdb->prepare("INSERT INTO $table (device, productId, view, atc, checkout, orderCount, orderItem, orderAmount,
-                utm_source, utm_medium, utm_campaign) VALUES(%s, %d, %d, %d, %d, %d, %d, %d, %s, %s, %s)
-                ON DUPLICATE KEY UPDATE view = view + VALUES(view), atc = atc + VALUES(atc), checkout = checkout + VALUES(checkout), orderCount = orderCount + VALUES(orderCount), orderItem = orderItem + VALUES(orderItem),
-                orderAmount = orderAmount + VALUES(orderAmount), lastModified = CURRENT_TIMESTAMP;", $device, $productId, $view, $atc, $checkout, $orderCount, $orderItem, $orderAmount, $utm_source, $utm_medium, $utm_campaign);
-            $wpdb->query($sql);
 
-            var_dump($sql);
+            $sqlCheckExits = $wpdb->prepare("SELECT 1 FROM $table where productId = $productId and utm_source = '$utm_source' and utm_medium = '$utm_medium' and utm_campaign = '$utm_campaign' and createDate = %s", $dateNow);
+            $result = $wpdb->get_results($sqlCheckExits);
+            if (sizeof($result) == 0) {
+                $sql =  $wpdb->prepare("INSERT INTO $table (device, productId, view, atc, checkout, orderCount, orderItem, orderAmount, utm_source, utm_medium, utm_campaign) VALUES(%s, %d, %d, %d, %d, %d, %d, %d, %s, %s, %s);", $device, $productId, $view, $atc, $checkout, $orderCount, $orderItem, $orderAmount, $utm_source, $utm_medium, $utm_campaign);
+            } else {
+                $sql =  $wpdb->prepare("UPDATE $table set view = view + $view, atc = atc + $atc, checkout = checkout + $checkout, orderCount = orderCount + $orderCount, orderItem = orderItem + $orderItem, orderAmount = orderAmount + $orderAmount WHERE productId = $productId and utm_source = '$utm_source' and utm_medium = '$utm_medium' and utm_campaign = '$utm_campaign' and createDate = %s;", $dateNow);
+            }
+            $wpdb->query($sql);
         }
     }
     $pdpRepo = new ProductDashboardRepository();
